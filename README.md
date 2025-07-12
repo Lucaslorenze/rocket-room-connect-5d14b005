@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-You can log in with `admin@example.com` / `admin` or `user@example.com` / `password`.
+You can log in with `admin@example.com` / `admin`, `user@example.com` / `password`, or `lucas.lorenze@gmail.com` / `11223344`.
 
 ## Building the app
 
