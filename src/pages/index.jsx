@@ -14,7 +14,8 @@ import ManagePlans from "./ManagePlans";
 
 import ManageSpaces from "./ManageSpaces";
 
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
+import Login from './Login.jsx';
 
 const PAGES = {
     
@@ -78,10 +79,23 @@ function PagesContent() {
     );
 }
 
+function RequireAuth({ children }) {
+    const token = localStorage.getItem('token');
+    if (!token) return <Navigate to="/login" replace />;
+    return children;
+}
+
 export default function Pages() {
     return (
         <Router>
-            <PagesContent />
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/*" element={
+                    <RequireAuth>
+                        <PagesContent />
+                    </RequireAuth>
+                } />
+            </Routes>
         </Router>
     );
 }

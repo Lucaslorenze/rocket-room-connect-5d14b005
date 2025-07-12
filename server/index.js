@@ -10,6 +10,10 @@ app.use(express.json());
 const DATA_PATH = path.join(__dirname, 'data.json');
 let data = { users: [], bookings: [], payments: [], passes: [], spaces: [] };
 
+function nextId(collection) {
+  return collection.reduce((max, item) => Math.max(max, item.id || 0), 0) + 1;
+}
+
 function loadData() {
   if (fs.existsSync(DATA_PATH)) {
     data = JSON.parse(fs.readFileSync(DATA_PATH));
@@ -58,19 +62,94 @@ app.get('/users', auth, (req, res) => {
 });
 
 app.get('/bookings', auth, (req, res) => {
-  res.json(data.bookings.filter(b => b.user_id === req.user.id));
+  let bookings = data.bookings;
+  if (req.user.role !== 'admin') {
+    bookings = bookings.filter(b => b.user_id === req.user.id);
+  }
+  res.json(bookings);
+});
+
+app.post('/bookings', auth, (req, res) => {
+  const booking = { id: nextId(data.bookings), user_id: req.user.id, created_date: new Date().toISOString(), ...req.body };
+  data.bookings.push(booking);
+  saveData();
+  res.json(booking);
 });
 
 app.get('/payments', auth, (req, res) => {
-  res.json(data.payments.filter(p => p.user_id === req.user.id));
+  let payments = data.payments;
+  if (req.user.role !== 'admin') {
+    payments = payments.filter(p => p.user_id === req.user.id);
+  }
+  res.json(payments);
+});
+
+app.post('/payments', auth, (req, res) => {
+  const payment = { id: nextId(data.payments), user_id: req.user.id, created_date: new Date().toISOString(), ...req.body };
+  data.payments.push(payment);
+  saveData();
+  res.json(payment);
 });
 
 app.get('/passes', auth, (req, res) => {
-  res.json(data.passes.filter(p => p.user_id === req.user.id));
+  let passes = data.passes;
+  if (req.user.role !== 'admin') {
+    passes = passes.filter(p => p.user_id === req.user.id);
+  }
+  if (req.query.is_active !== undefined) {
+    passes = passes.filter(p => String(p.is_active) === req.query.is_active);
+  }
+  res.json(passes);
+});
+
+app.post('/passes', auth, (req, res) => {
+  const pass = { id: nextId(data.passes), ...req.body };
+  data.passes.push(pass);
+  saveData();
+  res.json(pass);
+});
+
+app.put('/passes/:id', auth, (req, res) => {
+  const pass = data.passes.find(p => p.id == req.params.id);
+  if (!pass) return res.status(404).json({ message: 'Not found' });
+  Object.assign(pass, req.body);
+  saveData();
+  res.json(pass);
+});
+
+app.delete('/passes/:id', auth, (req, res) => {
+  data.passes = data.passes.filter(p => p.id != req.params.id);
+  saveData();
+  res.json({ success: true });
 });
 
 app.get('/spaces', auth, (req, res) => {
-  res.json(data.spaces);
+  let spaces = data.spaces;
+  if (req.query.is_active !== undefined) {
+    spaces = spaces.filter(s => String(s.is_active) === req.query.is_active);
+  }
+  res.json(spaces);
+});
+
+app.post('/spaces', auth, (req, res) => {
+  const space = { id: nextId(data.spaces), ...req.body };
+  data.spaces.push(space);
+  saveData();
+  res.json(space);
+});
+
+app.put('/spaces/:id', auth, (req, res) => {
+  const space = data.spaces.find(s => s.id == req.params.id);
+  if (!space) return res.status(404).json({ message: 'Not found' });
+  Object.assign(space, req.body);
+  saveData();
+  res.json(space);
+});
+
+app.delete('/spaces/:id', auth, (req, res) => {
+  data.spaces = data.spaces.filter(s => s.id != req.params.id);
+  saveData();
+  res.json({ success: true });
 });
 
 const PORT = process.env.PORT || 3001;
