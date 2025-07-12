@@ -1,0 +1,37 @@
+{
+  "users": [
+    {"id": 1, "email": "admin@example.com", "password": "admin", "full_name": "Admin User", "role": "admin"},
+    {"id": 2, "email": "user@example.com", "password": "password", "full_name": "Regular User", "role": "member"},
+    {"id": 3, "email": "lucas.lorenze@gmail.com", "password": "11223344", "full_name": "Lucas Lorenze", "role": "admin"}
+  ],
+  "bookings": [],
+  "payments": [],
+  "passes": [
+    {
+      "id": 1,
+      "name": "Day Pass",
+      "type": "day_pass",
+      "price": 20,
+      "validity_days": 30,
+      "description": "One day coworking pass",
+      "services_included": { "day_passes": 1 },
+      "features": ["Wifi"],
+      "is_active": true
+    }
+  ],
+  "spaces": [
+    {
+      "id": 1,
+      "name": "Coworking Desk",
+      "type": "shared_coworking",
+      "capacity": 1,
+      "hourly_price": 5,
+      "daily_price": 20,
+      "monthly_price": 100,
+      "description": "Shared desk space",
+      "features": ["Wifi"],
+      "max_daily_capacity": 20,
+      "is_active": true
+    }
+  ]
+}
