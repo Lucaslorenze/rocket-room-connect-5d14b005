@@ -19,31 +19,58 @@ export const User = {
 };
 
 export const Booking = {
-  async list() {
-    return api.listBookings();
+  async list(params) {
+    return api.listBookings(params);
   },
-  async filter() {
-    return api.listBookings();
+  async filter(params) {
+    return api.listBookings(params);
+  },
+  async create(data) {
+    return api.createBooking(data);
   }
 };
 
 export const Payment = {
-  async list() {
-    return api.listPayments();
+  async list(params) {
+    return api.listPayments(params);
   },
-  async filter() {
-    return api.listPayments();
+  async filter(params) {
+    return api.listPayments(params);
+  },
+  async create(data) {
+    return api.createPayment(data);
   }
 };
 
 export const Pass = {
-  async list() {
-    return api.listPasses();
+  async list(params) {
+    return api.listPasses(params);
+  },
+  async filter(params) {
+    return api.listPasses(params);
+  },
+  async create(data) {
+    return api.createPass(data);
+  },
+  async update(id, data) {
+    return api.updatePass(id, data);
+  },
+  async delete(id) {
+    return api.deletePass(id);
   }
 };
 
 export const Space = {
-  async list() {
-    return api.listSpaces();
+  async list(params) {
+    return api.listSpaces(params);
+  },
+  async create(data) {
+    return api.createSpace(data);
+  },
+  async update(id, data) {
+    return api.updateSpace(id, data);
+  },
+  async delete(id) {
+    return api.deleteSpace(id);
   }
 };

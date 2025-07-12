@@ -1,6 +1,6 @@
 const API_URL = 'http://localhost:3001';
 
-async function request(endpoint, options = {}) {
+export async function request(endpoint, options = {}) {
   const token = localStorage.getItem('token');
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
@@ -31,18 +31,54 @@ export async function updateMe(payload) {
   return request('/users/me', { method: 'PUT', body: JSON.stringify(payload) });
 }
 
-export async function listBookings() {
-  return request('/bookings');
+export async function listBookings(params) {
+  const query = params ? '?' + new URLSearchParams(params).toString() : '';
+  return request(`/bookings${query}`);
 }
 
-export async function listPayments() {
-  return request('/payments');
+export async function createBooking(payload) {
+  return request('/bookings', { method: 'POST', body: JSON.stringify(payload) });
 }
 
-export async function listPasses() {
-  return request('/passes');
+export async function listPayments(params) {
+  const query = params ? '?' + new URLSearchParams(params).toString() : '';
+  return request(`/payments${query}`);
 }
 
-export async function listSpaces() {
-  return request('/spaces');
+export async function createPayment(payload) {
+  return request('/payments', { method: 'POST', body: JSON.stringify(payload) });
+}
+
+export async function listPasses(params) {
+  const query = params ? '?' + new URLSearchParams(params).toString() : '';
+  return request(`/passes${query}`);
+}
+
+export async function createPass(payload) {
+  return request('/passes', { method: 'POST', body: JSON.stringify(payload) });
+}
+
+export async function updatePass(id, payload) {
+  return request(`/passes/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+}
+
+export async function deletePass(id) {
+  return request(`/passes/${id}`, { method: 'DELETE' });
+}
+
+export async function listSpaces(params) {
+  const query = params ? '?' + new URLSearchParams(params).toString() : '';
+  return request(`/spaces${query}`);
+}
+
+export async function createSpace(payload) {
+  return request('/spaces', { method: 'POST', body: JSON.stringify(payload) });
+}
+
+export async function updateSpace(id, payload) {
+  return request(`/spaces/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+}
+
+export async function deleteSpace(id) {
+  return request(`/spaces/${id}`, { method: 'DELETE' });
 }
