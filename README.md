@@ -1,20 +1,26 @@
-# Base44 App
+# Rocket Room App
 
+This project is a Vite + React application that runs entirely locally using a small Express backend. All data is stored in `server/data.json`.
 
-This app was created automatically by Base44.
-It's a Vite+React app that communicates with the Base44 API.
+## Running the local API
 
-## Running the app
+```bash
+cd server
+npm install
+node index.js
+```
+
+## Running the front‑end
 
 ```bash
 npm install
 npm run dev
 ```
 
+You can log in with `admin@example.com` / `admin` or `user@example.com` / `password`.
+
 ## Building the app
 
 ```bash
 npm run build
 ```
-
-For more information and support, please contact Base44 support at app@base44.com.
